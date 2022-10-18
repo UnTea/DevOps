@@ -1,0 +1,19 @@
+version: "3.6"
+services:
+  backend:
+    container_name: "backend"
+    build: "."
+    ports:
+      - "8080"
+  nginx:
+    container_name: "nginx"
+    build: "./nginx"
+    ports:
+      - "80:80"
+    depends_on:
+      - "backend"
+  redis:
+    container_name: "redis"
+    image: "redis:6-alpine"
+    ports:
+      - "6379:6379"
