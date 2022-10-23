@@ -1,19 +1,27 @@
 version: "3.6"
 services:
-  backend:
-    container_name: "backend"
-    build: "."
-    ports:
-      - "8080"
+  redis:
+    restart: always
+    container_name: "redis"
+    image: "redis:6-alpine"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - app-network
   nginx:
+    restart: always
     container_name: "nginx"
     build: "./nginx"
     ports:
       - "80:80"
-    depends_on:
-      - "backend"
-  redis:
-    container_name: "redis"
-    image: "redis:6-alpine"
-    ports:
-      - "6379:6379"
+    networks:
+      - app-network
+  backend:
+    container_name: "backend"
+    build: "."
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

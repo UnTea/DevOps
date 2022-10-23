@@ -5,6 +5,14 @@
     <title>Start Page</title>
 </head>
 <body>
-<h2>index.html</h2>
+<h2 id="time"></h2>
 </body>
+<script>
+    async function GetTime() {
+        document.getElementById("time").innerHTML = await fetch('/time').then(x => x.text());
+    }
+
+    GetTime();
+    setInterval(GetTime, 60 * 1000);
+</script>
 </html>
